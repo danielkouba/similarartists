@@ -8,8 +8,12 @@ var path		= require('path'),
 // Routes
 module.exports = function(app){
 	app.get('/', artists.index); 					// Base Route
-	app.get('/artist', artists.getAll);  			// Base API Route
-	app.get('/artist/:artistname', artists.getOne); // API w/ Param Route
+	//API routes
+	app.get('/api/artist', artists.getAll);  			// Base API Route
+	app.get('/api/artist/:artistname', artists.getOne); // API w/ Param Route
+	//Visualization routes
+	app.get('/artist', artists.visAll);  			// All artist visualization
+	app.get('/artist/:artistname', artists.visOne); // One artist visualization
 }
 // END Routes
 ////////////////////////////////////////

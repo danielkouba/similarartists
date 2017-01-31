@@ -22,7 +22,7 @@ function artistsController(){
 
 
 	////////////////////////////////////////
-	// '/artist' route
+	// '/api/artist' route
 	//// Loads the entire JSON file
 	this.getAll = function(req,res){ 
 		res.json(data);
@@ -31,30 +31,65 @@ function artistsController(){
 	////////////////////////////////////////
 
 
-	////////////////////////////////////////
-	// '/artist/:artistname' route
-	//// Loads a single artist entry
-	this.getOne = function(req,res){
-		// The variable being passed into template
-		// var context;
-		//Iterate through JSON data
+
+
+	this.queryName = function(name){
 		for (each in data) {
 			//If data.name equals request parameter
-			if (data[each].name.toLowerCase() == req.params.artistname.toLowerCase()) {
-				var context = data[each];
-				console.log(context)
-				res.render('index', context); // Send response
+			if (data[each].name.toLowerCase() == name.toLowerCase()) {
+				return {data: data[each], error: null} 
 			} // If
 		} // For
+		return {data: null, error: "Couldn't find artist: " + req.params.artistname	}
+	}
 
-		// If we haven't sent a response
-		//// Spit out the request parameter
-		if (!context){
-			res.json("Couldn't find artist: " + req.params.artistname);	
-		}	
+
+
+
+
+	////////////////////////////////////////
+	// '/api/artist/:artistname' route
+	//// Loads a JSON single artist entry
+	this.getOne = function(req,res){
+		var context = this.queryName(req.params.artistname);
+		if (context.data){
+			res.json(context.data); // Send response
+		} else {
+			res.json(context.error);	
+		}
 	}
 	// END this.getOne
 	////////////////////////////////////////
+
+	////////////////////////////////////////
+	// '/artist/:artistname' route
+	//// Loads a view for single artist entry
+	this.visOne = function(req,res){
+		// The variable being passed into template
+		var context = this.queryName(req.params.artistname);
+		if (context.data){
+			res.render('index', context.data); // Send response
+		} else {
+			res.json(context.error);	
+		}
+	}
+	// END this.visOne
+	////////////////////////////////////////
+
+	////////////////////////////////////////
+	// '/artist/' route
+	//// Loads a view for all artists
+	this.visAll = function(req,res){
+		var context = {'data': data}
+		res.render('all', context); // Send response
+	}
+	// END this.visAll
+	////////////////////////////////////////
+
+
+
+
+
 
 }
 // END artistsController

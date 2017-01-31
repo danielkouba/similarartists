@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Similartist</title>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="results">
+		<% for (each in data){ %>
+			<p>Name: <span><%= data[each].name %></span></p>
+			<p>Similar: <span><%= data[each].similar %></span></p>
+		<% } %>
+		</div>
+	</div>
+</body>
+</html>
