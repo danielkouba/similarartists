@@ -17,7 +17,7 @@ app.use(express.static('views'));
 app.get('/all', sendAll);
 function sendAll(request, response) {
   console.log('in the all method')
-  response.send(data);
+  response.send(artists);
 }
 
 // app.get('/search/:word/', searchWord);
