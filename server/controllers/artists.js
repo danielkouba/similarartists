@@ -35,21 +35,21 @@ function artistsController(){
 	// '/artist/:artistname' route
 	//// Loads a single artist entry
 	this.getOne = function(req,res){
-		// Did we already create a response?
-		var responseSent = false;
-
+		// The variable being passed into template
+		// var context;
 		//Iterate through JSON data
 		for (each in data) {
 			//If data.name equals request parameter
 			if (data[each].name.toLowerCase() == req.params.artistname.toLowerCase()) {
-				res.json(data[each]); // Send response
-				responseSent = true;  // Set boolean to True
+				var context = data[each];
+				console.log(context)
+				res.render('index', context); // Send response
 			} // If
 		} // For
 
 		// If we haven't sent a response
 		//// Spit out the request parameter
-		if (!responseSent){
+		if (!context){
 			res.json("Couldn't find artist: " + req.params.artistname);	
 		}	
 	}
