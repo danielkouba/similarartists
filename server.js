@@ -1,30 +1,41 @@
-"use strict";
 
-////////////////////////////////////////
-// Require Dependencies
-var express = require('express'),
-	bp		= require('body-parser'), 		//request body parser
-	path 	= require('path'),				//easy file path
-	root	= __dirname,					//current file path
-	port 	= process.env.PORT || 8000,		//define port
-	app 	= express();
+var fs = require('fs');
+var data = fs.readFileSync('artists.json');
+var artists = JSON.parse(data);
+var express = require('express');
 
-////////////////////////////////////////
-// Body Parser setup
-app.use(bp.urlencoded({extended:true}));
-app.use(bp.json({extended:true}));
+var app = express();
 
-////////////////////////////////////////
-//Setting up views route for express
-app.use(express.static(path.join(root,'views')));
-app.set('view engine', 'ejs');
+var server = app.listen(8000, listening);
 
-////////////////////////////////////////
-//Require Routes
-require("./server/config/routes.js")(app);
+function listening() {
+  console.log("listening on port 8000");
+}
 
-////////////////////////////////////////
-//Start server
-app.listen(port, function(){
-	console.log('Step 04: Server running on port: '+port)
-})
+app.use(express.static('views'));
+
+app.get('/all', sendAll);
+function sendAll(request, response) {
+  console.log('in the all method')
+  response.send(data);
+}
+
+// app.get('/search/:word/', searchWord);
+//
+// function searchWord(request, response) {
+//   var word = request.params.word;
+//   var reply;
+//   if (words[word]) {
+//     reply = {
+//       status: "found",
+//       word: word,
+//       score: words[word]
+//     }
+//   } else {
+//     reply = {
+//       status: "not found",
+//       word: word
+//     }
+//   }
+//   response.send(reply);
+// }
