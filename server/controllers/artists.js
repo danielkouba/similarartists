@@ -40,7 +40,7 @@ function artistsController(){
 				return {'data': data[each], 'error': null} 
 			} // If
 		} // For
-		return {'data': null, 'error': "Couldn't find artist: " + req.params.artistname	}
+		return {'data': null, 'error': "Couldn't find artist: " + name	}
 	}
 
 
@@ -68,6 +68,7 @@ function artistsController(){
 		// The variable being passed into template
 		console.log(req.params)
 		var context = queryOne(req.params.artistname);
+		console.log(context);
 		if (context.data){
 			res.render('index', context.data); // Send response
 		} else {
