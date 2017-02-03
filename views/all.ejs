@@ -5,16 +5,35 @@
 	<title>Similartist</title>
 	<script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
 	<script language="javascript" src="libraries/p5.dom.js"></script>
-	<script language="javascript" type="text/javascript" src="sketch.js"></script>
 </head>
 <body>
-	<div class="wrapper">
-		<div class="results">
-		<% for (each in data){ %>
-			<p>Name: <span><%= data[each].name %></span></p>
-			<p>Similar: <span><%= data[each].similar %></span></p>
-		<% } %>
-		</div>
-	</div>
+
+	<script type="text/javascript">
+		
+		var height;
+		var width;
+		var myData;
+
+		function setup() {
+			var url = "http://127.0.0.1:8000/api"
+			myData = loadJSON(url);
+			height = 800;
+			width = 1200;
+			createCanvas(width, height);
+			console.log('running');
+		}
+
+		function draw() {
+		  background(50);
+		  for (var i = 0; i < myData.length; i++) {
+		    var word = myData[i].name
+		    var x = random(width);
+		    var y = random(height);
+		    fill(200);
+		    textSize(5);
+		    text(word, x, y);
+		  }
+		}
+	</script>
 </body>
 </html>

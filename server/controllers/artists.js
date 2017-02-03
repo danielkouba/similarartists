@@ -33,14 +33,14 @@ function artistsController(){
 
 
 
-	this.queryName = function(name){
+	var queryOne = function(name){
 		for (each in data) {
 			//If data.name equals request parameter
 			if (data[each].name.toLowerCase() == name.toLowerCase()) {
-				return {data: data[each], error: null} 
+				return {'data': data[each], 'error': null} 
 			} // If
 		} // For
-		return {data: null, error: "Couldn't find artist: " + req.params.artistname	}
+		return {'data': null, 'error': "Couldn't find artist: " + req.params.artistname	}
 	}
 
 
@@ -51,7 +51,7 @@ function artistsController(){
 	// '/api/artist/:artistname' route
 	//// Loads a JSON single artist entry
 	this.getOne = function(req,res){
-		var context = this.queryName(req.params.artistname);
+		var context = queryOne(req.params.artistname);
 		if (context.data){
 			res.json(context.data); // Send response
 		} else {
@@ -66,7 +66,8 @@ function artistsController(){
 	//// Loads a view for single artist entry
 	this.visOne = function(req,res){
 		// The variable being passed into template
-		var context = this.queryName(req.params.artistname);
+		console.log(req.params)
+		var context = queryOne(req.params.artistname);
 		if (context.data){
 			res.render('index', context.data); // Send response
 		} else {
@@ -81,6 +82,7 @@ function artistsController(){
 	//// Loads a view for all artists
 	this.visAll = function(req,res){
 		var context = {'data': data}
+		console.log(console.data)
 		res.render('all', context); // Send response
 	}
 	// END this.visAll
